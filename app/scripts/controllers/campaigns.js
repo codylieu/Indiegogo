@@ -21,14 +21,14 @@ angular.module('indiegogoApp')
       });
 
     $scope.findProgressBarValue = function (campaign) {
-      var percentage = $scope.findPercentage(campaign);
+      var percentage = $scope.findPercentageCollected(campaign);
       if(percentage > 100) {
         return 100;
       }
       return percentage;
     }
 
-    $scope.findPercentage = function (campaign) {
+    $scope.findPercentageCollected = function (campaign) {
       return Math.round(100 * campaign.collected_funds/campaign.goal);
     }
 
