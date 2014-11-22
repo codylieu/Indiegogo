@@ -20,23 +20,28 @@ angular.module('indiegogoApp')
         $scope.categories = _.uniq(_.pluck(_.pluck($scope.campaigns, 'category'), 'name'));
       });
 
+    /* Finds percentage of the Progress Bar to fill.
+     * If percentage is greater than 100, it will just return 100.
+     * Otherwise, it returns the true value of the percentage.
+     */
     $scope.findProgressBarValue = function (campaign) {
       var percentage = $scope.findPercentageCollected(campaign);
-      if(percentage > 100) {
-        return 100;
-      }
-      return percentage;
+      return (percentage > 100) ? 100 : percentage;
     }
 
+    /* Calculates percentage of funds the campaign has collected compared with the goal */
     $scope.findPercentageCollected = function (campaign) {
       return Math.round(100 * campaign.collected_funds/campaign.goal);
     }
 
+    /* Redirects to the campaign page */
     $scope.goToCampaignPage = function (campaign) {
       $window.location.href = "https://www.indiegogo.com/projects/" + campaign.slug;
     }
 
-    // Add in check for hours and check for 0
+    /* Calculates how many days are left until campaign stops collecting funds
+     * If the difference is less than 0, it just returns 0
+     */
     $scope.daysLeft = function (campaign) {
       var today = new Date();
       var funding_ends_at = campaign.funding_ends_at;
@@ -52,10 +57,12 @@ angular.module('indiegogoApp')
       return diffDays + 1;
     }
 
+    /* Switches the category used to filter the campaigns */
     $scope.switchCategory = function (category) {
       $scope.selectedCategory = category;
     }
 
+    /* Decides whether to show a campaign based off the campaign selected */
     $scope.showCampaign = function (campaign) {
       if($scope.selectedCategory == 'All') {
         return true;
@@ -63,6 +70,7 @@ angular.module('indiegogoApp')
       return $scope.selectedCategory == campaign.category.name;
     }
 
+    /* Takes a string representing money and inserts commas at the appropriate places to make it more readable */
     $scope.createMoneyString = function (campaign) {
       var moneyString = campaign.collected_funds.toString();
       while (/(\d+)(\d{3})/.test(moneyString.toString())){
