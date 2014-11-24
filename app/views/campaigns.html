@@ -5,15 +5,37 @@
 <br>
 
 <div class="panel panel-default">
-<div class="panel-heading">
-  <h3 class="panel-title">Categories</h3>
+  <div class="panel-heading">
+    <h3 class="panel-title">Categories</h3>
+  </div>
+  <div class="panel-body">
+  <tabset type="pills">
+    <tab heading="All Categories" ng-click="switchCategory('All')"></tab>
+    <tab ng-repeat="category in categories" heading="{{category}}" ng-click="switchCategory(category)"></tab>
+  </tabset>
+  </div>
 </div>
-<div class="panel-body">
-<tabset type="pills">
-  <tab heading="All Categories" ng-click="switchCategory('All')"></tab>
-  <tab ng-repeat="category in categories" heading="{{category}}" ng-click="switchCategory(category)"></tab>
-</tabset>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Percent Funded</h3>
+  </div>
+  <div class="panel-body">
+  <tabset type="pills">
+    <tab ng-repeat="range in percentFundedRange" heading="{{range}}" ng-click="switchPercentFundedRange(range)"></tab>
+  </tabset>
+  </div>
 </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Funding Type</h3>
+  </div>
+  <div class="panel-body">
+  <tabset type="pills">
+    <tab ng-repeat="type in fundingType" heading="{{type}}" ng-click="switchFundingType(type)"></tab>
+  </tabset>
+  </div>
 </div>
 
 <ul class="list-group">

@@ -94,6 +94,40 @@ describe('Controller: CampaignsCtrl', function () {
     });
   });
 
+  describe('should switch to the correct percent funded range', function () {
+    it('should switch to All percent funded range', function () {
+      scope.switchPercentFundedRange('All');
+      expect(scope.selectedPercentFundedRange).toEqual('All');
+    });
+
+    it('should switch to 50% - 75% funded range', function () {
+      scope.switchPercentFundedRange('50% - 75%');
+      expect(scope.selectedPercentFundedRange).toEqual('50% - 75%');
+    });
+
+    it('should switch to greater than 75% funded range', function () {
+      scope.switchPercentFundedRange('75% - 100+%');
+      expect(scope.selectedPercentFundedRange).toEqual('75% - 100+%');
+    });
+  });
+
+  describe('should switch to the correct funding type', function () {
+    it('should switch to All funding types', function () {
+      scope.switchFundingType('All');
+      expect(scope.selectedFundingType).toEqual('All');
+    });
+
+    it('should switch to Flexible funding type', function () {
+      scope.switchFundingType('Flexible');
+      expect(scope.selectedFundingType).toEqual('Flexible');
+    });
+
+    it('should switch to Fixed funding type', function () {
+      scope.switchFundingType('Fixed');
+      expect(scope.selectedFundingType).toEqual('Fixed');
+    });
+  });
+
   describe('should only show campaigns of the selected category', function () {
     it('should show all campaigns if All Categories is selected', function () {
       scope.switchCategory('All');
@@ -123,6 +157,88 @@ describe('Controller: CampaignsCtrl', function () {
 
       var campaign = {category: {name: 'Education'}};
       expect(scope.showCampaign(campaign)).toBeTruthy();
+    });
+  });
+
+  describe('should only show campaigns with the selected percent funded range', function () {
+    it('should show all campaigns if All percent funded ranges is selected', function () {
+      scope.switchPercentFundedRange('All');
+
+      var campaign = {collected_funds: 25, goal: 100};
+      expect(scope.checkPercentFundedRange(campaign)).toBeTruthy();
+
+      var campaign = {collected_funds: 60, goal: 100};
+      expect(scope.checkPercentFundedRange(campaign)).toBeTruthy();
+
+      var campaign = {collected_funds: 90, goal: 100};
+      expect(scope.checkPercentFundedRange(campaign)).toBeTruthy();
+
+      var campaign = {collected_funds: 200, goal: 100};
+      expect(scope.checkPercentFundedRange(campaign)).toBeTruthy();
+    });
+
+    it('should show only campaigns with 50% to 75% funding', function () {
+      scope.switchPercentFundedRange('50% - 75%');
+
+      var campaign = {collected_funds: 25, goal: 100};
+      expect(scope.checkPercentFundedRange(campaign)).toBeFalsy();
+
+      var campaign = {collected_funds: 60, goal: 100};
+      expect(scope.checkPercentFundedRange(campaign)).toBeTruthy();
+
+      var campaign = {collected_funds: 90, goal: 100};
+      expect(scope.checkPercentFundedRange(campaign)).toBeFalsy();
+
+      var campaign = {collected_funds: 200, goal: 100};
+      expect(scope.checkPercentFundedRange(campaign)).toBeFalsy();
+    });
+
+    it('should show only campaigns with greater than 75% funding', function () {
+      scope.switchPercentFundedRange('75% - 100+%');
+
+      var campaign = {collected_funds: 25, goal: 100};
+      expect(scope.checkPercentFundedRange(campaign)).toBeFalsy();
+
+      var campaign = {collected_funds: 60, goal: 100};
+      expect(scope.checkPercentFundedRange(campaign)).toBeFalsy();
+
+      var campaign = {collected_funds: 90, goal: 100};
+      expect(scope.checkPercentFundedRange(campaign)).toBeTruthy();
+
+      var campaign = {collected_funds: 200, goal: 100};
+      expect(scope.checkPercentFundedRange(campaign)).toBeTruthy();
+    });
+  });
+
+  describe('should only show campaigns with the selected funding type', function () {
+    it('should show all campaigns if All funding type is selected', function () {
+      scope.switchFundingType('All');
+
+      var campaign = {funding_type: 'flexible'};
+      expect(scope.checkFundingType(campaign)).toBeTruthy();
+
+      var campaign = {funding_type: 'fixed'};
+      expect(scope.checkFundingType(campaign)).toBeTruthy();
+    });
+
+    it('should show only campaigns with Flexible funding type', function () {
+      scope.switchFundingType('Flexible');
+
+      var campaign = {funding_type: 'flexible'};
+      expect(scope.checkFundingType(campaign)).toBeTruthy();
+      
+      var campaign = {funding_type: 'fixed'};
+      expect(scope.checkFundingType(campaign)).toBeFalsy();
+    });
+
+    it('should show only campaigns with Fixed funding type', function () {
+      scope.switchFundingType('fixed');
+
+      var campaign = {funding_type: 'flexible'};
+      expect(scope.checkFundingType(campaign)).toBeFalsy();
+      
+      var campaign = {funding_type: 'fixed'};
+      expect(scope.checkFundingType(campaign)).toBeTruthy();
     });
   });
 
