@@ -2,6 +2,8 @@ Indiegogo
 =========
 Challenge for Indiegogo
 
+Web-application has been deployed using Heroku to https://codylieu-indiegogochallenge.herokuapp.com/
+
 Most of the relevant code for this challenge can be found in /app/scripts and /app/views
 
 31 Karma/Jasmine unit tests can be found in /test/spec/controllers/campaigns.js, which I run using grunt test
