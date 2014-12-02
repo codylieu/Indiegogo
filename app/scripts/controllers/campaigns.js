@@ -8,7 +8,7 @@
  * Controller of the indiegogoApp
  */
 angular.module('indiegogoApp')
-  .controller('CampaignsCtrl', function ($scope, $http, $window) {
+  .controller('CampaignsCtrl', function ($scope, $http, $window, $modal, $log) {
 
     $scope.campaigns = [];
     $scope.categories = [];
@@ -24,6 +24,20 @@ angular.module('indiegogoApp')
     $scope.selectedPercentFundedRange = 'All';
     $scope.fundingType = ['All', 'Flexible', 'Fixed'];
     $scope.selectedFundingType = 'All';
+
+    /*
+     * Starts a campaign
+     */
+    $scope.startACampaign = function () {
+      var modalInstance = $modal.open({
+        templateUrl: 'views/new_campaign.html',
+        controller: 'NewCampaignCtrl'
+      });
+
+      modalInstance.result.then(function (selectedItem) {
+        $scope.campaigns.push(selectedItem);
+      })
+    }
 
     /* Finds percentage of the Progress Bar to fill.
      * If percentage is greater than 100, it will just return 100.
